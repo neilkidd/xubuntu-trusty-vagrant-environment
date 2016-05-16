@@ -1,9 +1,9 @@
 (X)Ubuntu Trusty Vagrant Environment
 ====================================
-This repo is a vagrant vm container for [(X)Ubuntu Trusty Vagrant Environment](https://github.com/neilkidd/xubuntu-trusty-vagrant-environment) script development.
+This repo is a vagrant vm container for [(X)Ubuntu Trusty Dev Setup](https://github.com/neilkidd/xubuntu-trusty-dev-setup) script development.
 
 ## Introduction
-I needed to create a set of scripts for fast provisioning of a development environment.
+I needed to create a set of scripts for fast and easy provisioning of a broad development environment.
 
 I was inspired by the work from [rails/rails-dev-box](https://github.com/rails/rails-dev-box) that uses [Vagrant](https://www.vagrantup.com/) and [Virtualbox (5)](https://www.virtualbox.org/) to achieve a rapidly, repeatable and disposable environment. Additionally, in theory, this should work from any host OS. I often find myself in both [Windows   &trade;](https://www.microsoft.com/en-us/windows) and [Linux](http://xubuntu.org/) environments.
 
