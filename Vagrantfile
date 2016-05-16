@@ -26,18 +26,20 @@ Vagrant.configure(2) do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
-	config.vm.provider "virtualbox" do |vb|
-		# Display the VirtualBox GUI when booting the machine
-		vb.gui = true
-		vb.memory = "1024"
-		vb.cpus = 2
-	end
+    config.vm.provider "virtualbox" do |vb|
+      # Display the VirtualBox GUI when booting the machine
+      #vb.gui = true
+      vb.memory = "1024"
+      vb.cpus = 2
+    end
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   sudo apt-get update
-  #   sudo apt-get install -y apache2
-  # SHELL
+   config.vm.provision "shell", inline: <<-SHELL
+
+   #login as 'real' user with the correct env
+    su --login --command 'sudo /vagrant/xubuntu-trusty-dev-setup/install.sh' vagrant
+
+   SHELL
 end
