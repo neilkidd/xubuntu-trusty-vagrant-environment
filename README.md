@@ -1,33 +1,74 @@
 (X)Ubuntu Trusty Vagrant Environment
 ====================================
-This repo is a vagrant vm container for (X)Ubuntu Post Install Script development.
-Inspired by the rails repo. (Link required)
+This repo is a vagrant vm container for [(X)Ubuntu Trusty Vagrant Environment](https://github.com/neilkidd/xubuntu-trusty-vagrant-environment) script development.
 
-## Prerequisites
-* Vagrant
-* Atlas account
-* Access to neil_kidd/xubuntu-14043-desktop
+## Introduction
+I needed to create a set of scripts for fast provisioning of a development environment.
+
+I was inspired by the work from [rails/rails-dev-box](https://github.com/rails/rails-dev-box) that uses [Vagrant](https://www.vagrantup.com/) and [Virtualbox (5)](https://www.virtualbox.org/) to achieve a rapidly, repeatable and disposable environment. Additionally, in theory, this should work from any host OS. I often find myself in both [Windows   &trade;](https://www.microsoft.com/en-us/windows) and [Linux](http://xubuntu.org/) environments.
+
+I already had a baseline [xubuntu box](https://github.com/neilkidd/vagrant-atlas-xubuntu-14.04-desktop)  hosted in [Hashicorp's Atlas](https://atlas.hashicorp.com) so "tying it all together" was natural progression.
+
+## Requirements
+* [Virtualbox (5)](https://www.virtualbox.org/)
+* [Vagrant](https://www.vagrantup.com/) installed
+* An [Atlas](https://atlas.hashicorp.com) account
+* Read access to [neil_kidd/xubuntu-14043-desktop](https://atlas.hashicorp.com/neil_kidd/boxes/xubuntu-14043-desktop)
+
+## Usage
+From a command line:
+
+Login to [Atlas](https://atlas.hashicorp.com) , following the prompts.
+```shell
+$ vagrant login
+```
+
+Add the base box to your machine.
+```shell
+$ vagrant box add neil_kidd/xubuntu-14043-desktop
+```
+
+If you haven't already, clone [this](https://github.com/neilkidd/xubuntu-trusty-vagrant-environment) repo and cd into it.
+```shell
+$ git clone https://github.com/neilkidd/xubuntu-trusty-vagrant-environment.git
+$ cd xubuntu-trusty-vagrant-environment
+```
+
+Clone the provisioning [repo](https://github.com/neilkidd/xubuntu-trusty-dev-setup). ( Or create a fork :smile:)
+```shell
+$ git clone https://github.com/neilkidd/xubuntu-trusty-dev-setup.git
+```
+Bring up the vm for the first time.  
+**Important:**  '--no-provison' is required here as we intend to create an un-provisioned snapshot.
+```shell
+$ vagrant up --no-provision
+```
+
+Create a [snapshot](https://www.vagrantup.com/docs/cli/snapshot.html).
+```shell
+$ vagrant snapshot save clean_base
+```
+
+Excellent - we are now good to iterate. So stop the vm.
+```shell
+$ vagrant halt
+```
+### Iterating
+To bring up the vm with the shell provisioning specified in the  [Vagrantfile](Vagrantfile):
+```shell
+$ vagrant snapshot restore clean_base
+```
+From within your host, you can now edit the provisioning code as you wish and cleanly bring up the vm with the above command.
+
+### Cleaning Up
+Issuing a ``` $ vagrant destroy ``` in the root directory will completely remove the local vm, along with any snapshots. This will not remove the base box from vagrant, so you may quickly start afresh.
+
+## Credits
+* [rails/rails-dev-box](https://github.com/rails/rails-dev-box) - for the formula and inspiration.
+* [Hashicorp](https://www.hashicorp.com/) - for the amazing tooling.
+* [Virtualbox](https://www.virtualbox.org/) - and I guess Oracle &trade; for the vm tech.
 
 
-##Usage:
+## License
 
-vagrant login (follow the prompts to log in to atlas)
-vagrant box add neil_kidd/xubuntu-14043-desktop
-
-git clone https://github.com/neilkidd/xubuntu-trusty-dev-setup.git (or your own fork!)
-
-vagrant up
-vagrant ssh
-host$ cd /vagrant/xubuntu-trusty-dev-setup
-host$ sudo ./install.sh
-
-When you have finished a run - you can edit your sources and then:
-vagrant destroy
-vagrant up
-
-	
-##TODO
-* Add link to rails repo - thanks
-* Think about full workflow scripts fro both windows and linux hosts
-* Add shell provisoning - so a single vagrant up will do all the work
-* Consider snapshots - they may be faster than vagrant destroy
+Released under the [MIT License](LICENSE), Copyright (c) 2016–<i>ω</i> Neil Kidd.
